@@ -9061,6 +9061,11 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-google-drive-picker@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-google-drive-picker/-/react-google-drive-picker-1.1.4.tgz#dc6dfae2cb11d947358d9f8e02a3232632a98ddf"
+  integrity sha512-sXcr3yRD4rqp0JlPge31lrcAgwrsBIERB5IwPu0ZvDNR4RyEHUVLxm2QYRA/wz9lgcaY21oy9Foo96rAxLAbtw==
+
 react-google-login@^5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-5.2.2.tgz#a20b46440c6c1610175ef75baf427118ff0e9859"

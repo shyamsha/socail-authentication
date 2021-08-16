@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { GoogleLogin } from "react-google-login";
 // import { Dropbox } from "dropbox";
 import DropboxChooser from "react-dropbox-chooser";
+import useDrivePicker from "react-google-drive-picker";
 
 function App() {
   const [setFileSelected, setSetFileSelected] = useState();
+  const [openPicker, data] = useDrivePicker();
+  useEffect(() => {
+    if (data) {
+      setSetFileSelected(data.docs[0]);
+    }
+  }, [data]);
 
-  const responseGoogle = (response) => {
+  const googleLogin = (response) => {
     console.log(response);
   };
 
@@ -66,14 +73,25 @@ function App() {
     setSetFileSelected(file[0]);
   };
 
+  const googleDrive = () => {
+    openPicker({
+      clientId:
+        "970824446389-c8aog99f5ui467iq4lf40gm49ec1jpsk.apps.googleusercontent.com",
+      developerKey: "AIzaSyAup-VfockM0qjtsGmJKJPWE7f_LkpqhnI",
+      viewId: "DOCUMENTS",
+      // token: token, // pass oauth token in case you already have one
+      supportDrives: true,
+    });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <GoogleLogin
           clientId="970824446389-c8aog99f5ui467iq4lf40gm49ec1jpsk.apps.googleusercontent.com"
           buttonText="Login with Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
+          onSuccess={googleLogin}
+          onFailure={googleLogin}
           cookiePolicy={"single_host_origin"}
         />
         {/* <div
@@ -118,6 +136,12 @@ function App() {
             dropBox
           </div>
         </DropboxChooser>
+        <div>
+          <p></p>
+        </div>
+        <div onClick={googleDrive} style={{ cursor: "pointer" }}>
+          GoogleDrive
+        </div>
       </header>
     </div>
   );
