@@ -2,12 +2,10 @@ import { useState } from "react";
 import "./App.css";
 import { GoogleLogin } from "react-google-login";
 import { Dropbox } from "dropbox";
+import DropboxChooser from "react-dropbox-chooser";
 
 function App() {
   const [setFileSelected, setSetFileSelected] = useState();
-  const signup = (response) => {
-    console.log(response);
-  };
 
   const responseGoogle = (response) => {
     console.log(response);
@@ -19,7 +17,7 @@ function App() {
 
   const oneDrive = () => {};
 
-  const dropBox = () => {
+  const dropBox = (file) => {
     const options = {
       // Required. Called when a user selects an item in the Chooser.
       success: function (files) {
@@ -57,18 +55,19 @@ function App() {
       sizeLimit: 1024, // or any positive number
     };
     // Dropbox.choose(options);
-    var dbx = new Dropbox({
-      accessToken:
-        "5-KDDVKc1O4AAAAAAAAAAT7xqpMFIw6F6o4tqxS01IRpAlCaFCLv_1kpI7veqwEh",
-    });
-    dbx
-      .filesListFolder({ path: "" })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    // var dbx = new Dropbox({
+    //   accessToken:
+    //     "5-KDDVKc1O4AAAAAAAAAAT7xqpMFIw6F6o4tqxS01IRpAlCaFCLv_1kpI7veqwEh",
+    // });
+    // dbx
+    //   .filesListFolder({ path: "" })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+    setSetFileSelected(file[0]);
   };
 
   return (
@@ -102,7 +101,7 @@ function App() {
         <div>
           <p></p>
         </div>
-        <input type="file" onChange={fileReader} value={setFileSelected} />
+        <input type="file" onChange={fileReader} />
         <div>
           <p></p>
         </div>
@@ -112,9 +111,17 @@ function App() {
         <div>
           <p></p>
         </div>
-        <div onClick={dropBox} style={{ cursor: "pointer" }}>
-          dropBox
-        </div>
+        <DropboxChooser
+          appKey={"fz7kjqq7ofzgi60"}
+          success={(file) => dropBox(file)}
+          cancel={() => console.log("closed")}
+          multiselect={false}
+          extensions={[".pdf"]}
+        >
+          <div onClick={() => null} style={{ cursor: "pointer" }}>
+            dropBox
+          </div>
+        </DropboxChooser>
       </header>
     </div>
   );
