@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { GoogleLogin } from "react-google-login";
-import { Dropbox } from "dropbox";
+// import { Dropbox } from "dropbox";
 import DropboxChooser from "react-dropbox-chooser";
 
 function App() {
@@ -18,6 +18,14 @@ function App() {
   const oneDrive = () => {};
 
   const dropBox = (file) => {
+    // let dropBox = document.createElement("script");
+    // dropBox.setAttribute(
+    //   "src",
+    //   "https://www.dropbox.com/static/api/2/dropins.js"
+    // );
+    // dropBox.setAttribute("id", "dropboxjs");
+    // dropBox.setAttribute("data-app-key", "<YOU_ API_KEY>");
+    // document.head.appendChild(dropBox);
     const options = {
       // Required. Called when a user selects an item in the Chooser.
       success: function (files) {
@@ -55,18 +63,6 @@ function App() {
       sizeLimit: 1024, // or any positive number
     };
     // Dropbox.choose(options);
-    // var dbx = new Dropbox({
-    //   accessToken:
-    //     "5-KDDVKc1O4AAAAAAAAAAT7xqpMFIw6F6o4tqxS01IRpAlCaFCLv_1kpI7veqwEh",
-    // });
-    // dbx
-    //   .filesListFolder({ path: "" })
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
     setSetFileSelected(file[0]);
   };
 
