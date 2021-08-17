@@ -28,51 +28,6 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <!-- <script type="text/javascript">
-      const el = document.getElementById("one");
-      if (el) {
-        el = addEventListener("click", (e) => {
-          e.preventDefault();
-          launchOneDrivePicker()
-            .then((result) => {
-              if (result) {
-                for (const file of result.value) {
-                  const name = file.name;
-                  const url = file["@microsoft.graph.downloadUrl"];
-                  console.log({ name: name, url: url });
-                }
-              }
-            })
-            .catch((reason) => {
-              console.error(reason);
-            });
-        });
-      }
-      var odOptions = {
-        clientId: "be06f095-c609-4412-8e9a-295d3144b5e6",
-        action: "query",
-        advanced: {},
-        success: function (files) {
-          /* success handler */ console.log(files);
-        },
-        progress: function (percent) {
-          /* progress handler */
-        },
-        cancel: function () {
-          /* cancel handler */
-        },
-        error: function (error) {
-          /* error handler */
-        },
-      };
-      function launchOneDrivePicker() {
-        return new Promise((resolve, reject) => {
-          odOptions = odOptions;
-          OneDrive.open(odOptions);
-        });
-      }
-    </script> -->
-
     <div id="root"></div>
     <!-- <div id="one">Save to OneDrive</div> -->
     <!--
