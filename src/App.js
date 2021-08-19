@@ -7,7 +7,7 @@ import useDrivePicker from "react-google-drive-picker";
 function App() {
   const [setFileSelected, setSetFileSelected] = useState();
   const [openPicker, data] = useDrivePicker();
-
+  const token = window.location.search.substring(6);
   useEffect(() => {
     if (data) {
       setSetFileSelected(data.docs[0]);
@@ -36,6 +36,32 @@ function App() {
   //   };
   // }, []);
 
+  useEffect(() => {
+    let linkedinAPi = `https://api.linkedin.com/v2/me`;
+    let url = `https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&client_id=781sbw7lgx37yi&client_secret=32j7y3iHbzVmHX87&code=${token}&redirect_uri=http://localhost:3000`;
+    if (token) {
+      fetch(url)
+        .then((res) => {
+          let result = res.json();
+          console.log(result);
+          // fetch(linkedinAPi, {
+          //   headers: {
+          //     Authentication: "Bearer " + result.data.access_token,
+          //   },
+          // });
+        })
+        .then((result) => {
+          console.log(result);
+        });
+    }
+  }, [token]);
+
+  const handleSuccess = (event) => {
+    if (event.data.type === "profile") {
+      console.log(event.data);
+      window.close();
+    }
+  };
   const googleLogin = (response) => {
     console.log(response);
   };
@@ -114,9 +140,36 @@ function App() {
       });
   };
 
+  const linkedin = () => {
+    let oauthUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=781sbw7lgx37yi&scope=r_liteprofile%20r_emailaddress&state=123456&redirect_uri=http://localhost:3000`;
+
+    window.open(oauthUrl, "_self");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
+        {/* <LinkedIn
+          clientId="781sbw7lgx37yi"
+          onSuccess={linkedin}
+          onFailure={handleFailure}
+          redirectUri="http://localhost:3000"
+          renderElement={({ onClick, disabled }) => (
+            <div
+              onClick={onClick}
+              disabled={disabled}
+              style={{ cursor: "pointer" }}
+            >
+              Login with Linkedin
+            </div>
+          )}
+        /> */}
+        <div onClick={linkedin} style={{ cursor: "pointer" }}>
+          Login with Linkedin
+        </div>
+        <div>
+          <p></p>
+        </div>
         <GoogleLogin
           clientId="970824446389-c8aog99f5ui467iq4lf40gm49ec1jpsk.apps.googleusercontent.com"
           buttonText="Login with Google"

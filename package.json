@@ -11,6 +11,8 @@
     "react-dropbox-chooser": "^0.0.5",
     "react-google-drive-picker": "^1.1.4",
     "react-google-login": "^5.2.2",
+    "react-linkedin-login-oauth2": "^1.0.9",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
