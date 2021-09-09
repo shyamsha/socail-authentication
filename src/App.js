@@ -41,6 +41,17 @@ function App() {
       document.body.removeChild(dropBox);
     };
   }, []);
+  useEffect(() => {
+    let dropBox = document.createElement("script");
+    dropBox.src = "https://www.dropbox.com/static/api/2/dropins.js";
+    dropBox.async = true;
+    dropBox.setAttribute("id", "dropboxjs");
+    dropBox.setAttribute("data-app-key", "bftssa3b0t1529v");
+    document.body.appendChild(dropBox);
+    return () => {
+      document.body.removeChild(dropBox);
+    };
+  }, []);
 
   useEffect(() => {
     let linkedinAPi = `https://api.linkedin.com/v2/me`;
@@ -62,12 +73,6 @@ function App() {
     }
   }, [token]);
 
-  const handleSuccess = (event) => {
-    if (event.data.type === "profile") {
-      console.log(event.data);
-      window.close();
-    }
-  };
   const googleLogin = (response) => {
     console.log(response);
   };
@@ -153,6 +158,85 @@ function App() {
     window.open(oauthUrl, "_self");
   };
 
+  const dropboxSaver = () => {
+    let url =
+      "https://signly-documents.s3.ap-south-1.amazonaws.com/doconv/uploads/2/a63e5358-16ea-41f1-9835-55d857d81f64-finished.pdf";
+    var options = {
+      // files: [
+      // You can specify up to 100 files.
+      // {'url': '', 'filename': 'image'},
+      // ...
+      // ],
+
+      // Success is called once all files have been successfully added to the user's
+      // Dropbox, although they may not have synced to the user's devices yet.
+      success: function () {
+        // Indicate to the user that the files have been saved.
+        alert("Success! Files saved to your Dropbox.");
+      },
+
+      // Progress is called periodically to update the application on the progress
+      // of the user's downloads. The value passed to this callback is a float
+      // between 0 and 1. The progress callback is guaranteed to be called at least
+      // once with the value 1.
+      progress: function (progress) {},
+
+      // Cancel is called if the user presses the Cancel button or closes the Saver.
+      cancel: function () {},
+
+      // Error is called in the event of an unexpected response from the server
+      // hosting the files, such as not being able to find a file. This callback is
+      // also called if there is an error on Dropbox or if the user is over quota.
+      error: function (errorMessage) {},
+    };
+    window.Dropbox.save(url, "document.pdf", options);
+  };
+
+  const launchOneDrivePickerSaver = () => {
+    return new Promise((resolve, reject) => {
+      var odOptions = {
+        clientId: "7ea71fb9-e8a0-4baa-9ac9-be91a7e80783",
+        action: "save",
+        sourceUri:
+          "https://signly-documents.s3.ap-south-1.amazonaws.com/doconv/uploads/2/a63e5358-16ea-41f1-9835-55d857d81f64-finished.pdf",
+        fileName: "file.pdf",
+        openInNewWindow: true,
+        advanced: {
+          // filter: "folder,.pdf",
+          //filter: "folder,photo"
+        },
+        success: (files) => {
+          resolve(files);
+        },
+        cancel: () => {
+          resolve(null);
+        },
+        error: (e) => {
+          reject(e);
+        },
+      };
+      window.OneDrive.save(odOptions);
+    });
+  };
+
+  const onedriveSaver = (e) => {
+    e.preventDefault();
+    launchOneDrivePickerSaver()
+      .then((result) => {
+        if (result) {
+          console.log(result.value[0]);
+          // for (const file of result.value) {
+          //   const name = file.name;
+          //   const url = file["@microsoft.graph.downloadUrl"];
+          //   console.log({ name: name, url: url });
+          // }
+        }
+      })
+      .catch((reason) => {
+        console.error(reason);
+      });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -190,6 +274,28 @@ function App() {
         </div>
         <div onClick={googleDrive} style={{ cursor: "pointer" }}>
           GoogleDrive
+        </div>
+        <div>
+          <p></p>
+        </div>
+        <div
+          onClick={onedriveSaver}
+          id="OpenOneDrive"
+          style={{ cursor: "pointer" }}
+        >
+          oneDriveSaver
+        </div>
+        <div>
+          <p></p>
+        </div>
+        <div onClick={dropboxSaver} style={{ cursor: "pointer" }}>
+          dropBoxSaver
+        </div>
+        <div>
+          <p></p>
+        </div>
+        <div onClick={() => null} style={{ cursor: "pointer" }}>
+          GoogleDriveSaver
         </div>
       </header>
     </div>
