@@ -5,13 +5,22 @@ import useDrivePicker from "react-google-drive-picker";
 
 function App() {
   const [setFileSelected, setSetFileSelected] = useState();
-  const [openPicker, data] = useDrivePicker();
+  const [openPicker, data, authResult] = useDrivePicker();
   const token = window.location.search.substring(6);
   useEffect(() => {
     if (data) {
-      setSetFileSelected(data.docs[0]);
+      setSetFileSelected(data.docs[0], authResult);
       console.log(data);
-      fetch(`https://www.googleapis.com/drive/v3/files/${setFileSelected.id}`)
+      let options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authResult.access_token}`,
+        },
+      };
+      return fetch(
+        `https://www.googleapis.com/drive/v2/files/${data.docs[0].id}?alt=media&source=downloadUrl&key=AIzaSyDfJDHdwzRKiaQt4gZrrvfY4V5A0kf58V8`,
+        options
+      )
         .then((res) => {
           console.log(res);
           res.json();
@@ -101,11 +110,20 @@ function App() {
   const googleDrive = () => {
     openPicker({
       clientId:
-        "970824446389-c8aog99f5ui467iq4lf40gm49ec1jpsk.apps.googleusercontent.com",
-      developerKey: "AIzaSyAup-VfockM0qjtsGmJKJPWE7f_LkpqhnI",
-      viewId: "DOCUMENTS",
+        "970824446389-jdbnim2aj2df7krahcflm8ifhk4s1tlk.apps.googleusercontent.com",
+      developerKey: "AIzaSyDfJDHdwzRKiaQt4gZrrvfY4V5A0kf58V8",
+      viewId: "DOCS",
       // token: token, // pass oauth token in case you already have one
       supportDrives: true,
+      customScopes: [
+        "https://www.googleapis.com/auth/drive",
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive.readonly",
+        "https://www.googleapis.com/auth/drive.metadata.readonly",
+        "https://www.googleapis.com/auth/drive.metadata",
+        "https://www.googleapis.com/auth/drive.appdata",
+        "https://www.googleapis.com/auth/drive.photos.readonly",
+      ],
     });
   };
 
